@@ -22,8 +22,8 @@ public class main {
     public static void main(String[] args) {
         staticFiles.location("/");
         List<estudiante> listaEstudiante = new ArrayList<>();
-        listaEstudiante.add(new estudiante(20011136, "Carlos Camacho", "ITT", "1234567"));
-        listaEstudiante.add(new estudiante(20011137, "Otro Estudiante", "ISC", "1234567"));
+        listaEstudiante.add(new estudiante(20130824, "Isaac", "Perez", "1234567"));
+        listaEstudiante.add(new estudiante(20131111, "Jose", "Perez", "1234567"));
         Configuration configuration=new Configuration(Configuration.VERSION_2_3_23);
         configuration.setClassForTemplateLoading(main.class, "/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(configuration);
@@ -43,29 +43,56 @@ public class main {
             String Telefono = request.queryParams("telefono");
 
             listaEstudiante.add(new estudiante(Matricula, Nombre, Apellido, Telefono));
-
             Map<String, Object> attributes = new HashMap<>();
-
-            return new ModelAndView(attributes, "mostrarEstudiantes.ftl");
+            response.redirect("/mostrarEstudiantes");
+            return null;
         }, freeMarkerEngine);
 
-        get("/mostrarEstudiantes/:indice", (request, response) -> {
+        get("/mostrarEstudiantes", (request, response) -> {
 
                     Map<String, Object> attributes = new HashMap<>();
                     attributes.put("listaEstudiante", listaEstudiante);
-                    int indice = Integer.parseInt(request.params("indice"));
+
 
 
                     return new ModelAndView(attributes, "mostrarEstudiantes.ftl");}, freeMarkerEngine);
 
-        get("/visualizarEstudiante", (request, response) -> {
+        get("/modificarEstudiante/:indice", (request, response) -> {
 
 
             Map<String, Object> attributes = new HashMap<>();
-            attributes.put("Estudiante", listaEstudiante.get(0));
+
+             int indice = Integer.parseInt(request.params("indice"));
+            attributes.put("estudiante", listaEstudiante.get(indice));
+            attributes.put("indice", indice);
+            return new ModelAndView(attributes, "modificarEstudiante.ftl");}, freeMarkerEngine);
 
 
-            return new ModelAndView(attributes, "visualizarEstudiante.ftl");}, freeMarkerEngine);
+        post("/editarEstudiante/:indice", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            int indice = Integer.parseInt(request.params("indice"));
+            System.out.println(indice);
+            int Matricula = Integer.parseInt(request.queryParams("matricula"));
+            String Nombre = request.queryParams("nombre");
+            String Apellido = request.queryParams("apellido");
+            String Telefono = request.queryParams("telefono");
+
+
+            listaEstudiante.set(indice,new estudiante(Matricula, Nombre, Apellido, Telefono));
+            response.redirect("/mostrarEstudiantes");
+
+            return null;}, freeMarkerEngine);
+
+        post("/borrarEstudiante/:indice", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            int indice = Integer.parseInt(request.params("indice"));
+
+
+            listaEstudiante.remove(indice);
+            response.redirect("/mostrarEstudiantes");
+
+            return null;}, freeMarkerEngine);
+
 
 
     }

@@ -21,16 +21,19 @@
     <h2>Mostrar Estudiantes</h2>
     <table class="table table-hover">
         <tbody>
-        <tr><th>Matricula</th><th>Nombre</th><th>Apellido</th><th>Telefono</th></tr>
+        <tr><th>Matricula</th><th>Nombre</th><th>Apellido</th><th>Telefono</th><th>Modificar</th></tr>
         <#list listaEstudiante as estudiante>
-
-        <tr><td><a href="/visualizarEstudiante/${estudiante_index}"> ${estudiante.matricula?string["0"]}</td></a>
-            <td>${estudiante.nombre}
-        </td><td>${estudiante.apellido}</td>
-            <td>${estudiante.telefono}</td></tr>
+        <tr><td> ${estudiante.matricula?string["0"]}</td>
+            <td>${estudiante.nombre}</td>
+            <td>${estudiante.apellido}</td>
+            <td>${estudiante.telefono}</td>
+            <td><a href="/modificarEstudiante/${estudiante_index}">Modificar</td></a></tr>
         </#list>
-        </tbody>5
+        </tbody>
     </table>
+    <div class="form-group">
+       <a href="/crearEstudiante"><input type="Button" class="form-control" value="Crear Estudiante"  ></a>
+    </div>
 </div
 </body>
 </html>

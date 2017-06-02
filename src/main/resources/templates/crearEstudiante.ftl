@@ -43,6 +43,9 @@
         <div class="form-group">
             <input class="form-control" type="reset" value="Limpiar campos"/>
 </div>
+        <div class="form-group">
+            <a href="/mostrarEstudiantes"><input type="Button" class="form-control" value="Volver a listado de estudiantes"  ></a>
+        </div>
 	</form>
 	</div
 </body>
