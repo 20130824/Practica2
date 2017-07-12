@@ -20,6 +20,7 @@ import freemarker.template.Configuration;
 public class main {
 
     public static void main(String[] args) {
+        port(getHerokuAssignedPort());
         staticFiles.location("/");
         List<estudiante> listaEstudiante = new ArrayList<>();
         listaEstudiante.add(new estudiante(20130824, "Isaac", "Perez", "1234567"));
@@ -95,6 +96,13 @@ public class main {
 
 
 
+    }
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
     }
 
 
