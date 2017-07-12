@@ -29,6 +29,13 @@ public class main {
         configuration.setClassForTemplateLoading(main.class, "/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(configuration);
 
+        get("/", (request, response) -> {
+
+            Map<String, Object> attributes = new HashMap<>();
+
+            response.redirect("/mostrarEstudiantes");
+            return null;
+        }, freeMarkerEngine);
 
         get("/crearEstudiante", (request, response) -> {
 
